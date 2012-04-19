@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Floating Footer Sample</title>
+<style>
+
+*, html, body {
+    margin: 0;
+    padding: 0;
+}
+
+#footer {
+    height: 150px;
+    background-color:#333;
+    color: #FFF;
+    width: 100%;
+}
+
+.fixed {
+    position: fixed;
+    top: 100%;
+    margin-top: -50px;
+}
+
+.float {
+    position: relative;
+    margin-top: -50px;
+}
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="js/jquery.floating-footer.js"></script>
+<script type="text/javascript">
+
+    jQuery(function() {
+        $('#footer').floatingFooter();
+    });
+
+</script>
+</head>
+
+<body>
+    <div style="height: 900px; width: 300px; background-color:#999900;">
+        Test
+    </div>
+    <!-- begin footer -->
+    <div id="footer" class="float">
+        Footer
+        <br />
+        <br />
+        <br />
+        Footer Ausserhalb der Page      
+    </div>
+    <!-- end footer -->
+</body>
+</html>
