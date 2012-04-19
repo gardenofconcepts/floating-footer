@@ -38,7 +38,7 @@
             }
 
             $(window).bind('resize scroll', function() {
-                var scrollTop = scrollTop();
+                var scrollTop = scrolltoTop();
                 var height = $(this).height();
                 
                 if ((scrollTop + height) >= (diff + bottomOffset)) {
@@ -63,7 +63,7 @@
         );
     }
 
-    function scrollTop()
+    function scrolltoTop()
     {
         return filterResults (
             window.pageYOffset ? window.pageYOffset : 0,
