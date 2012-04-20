@@ -30,6 +30,8 @@
  */
 (function( $ ) {
 
+    "use strict";
+
     $.fn.floatingFooter = function()
     {
         return this.each(function() {
@@ -56,15 +58,15 @@
         function getScrollTop()
         {
             var target = document.body;
-            var scrollTop = 0
+            var scrollTop = 0;
 
-            while (target != null)  {
+            while (target !== null)  {
                 scrollTop += target.scrollTop ? target.scrollTop : 0;
                 target = target.parentNode;
             }
 
             return Math.max(scrollTop, $('body').scrollTop());
         }
-    }
+    };
 
 })( jQuery );
