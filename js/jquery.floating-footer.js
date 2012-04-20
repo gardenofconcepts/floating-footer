@@ -18,6 +18,13 @@
 /**
  * jQuery plugin for floating footer
  *
+ * Supported and tested browsers:
+ *   - IE 7+ (because IE<7 doesn't supports position:fixed)
+ *   - Chrome
+ *   - Firefox
+ *   - Chrome
+ *   - Opera
+ *
  * @author David Kötterheinrich <David Kötterheinrich> 
  * @author Dennis Oehme <oehme@gardenofconcepts.com>
  */
@@ -26,61 +33,39 @@
     $.fn.floatingFooter = function()
     {
         return this.each(function() {
-            var elem = $(this);
-            var bottomHeight = elem.height();
-            var bottomOffset = (parseInt(elem.css('marginTop').replace('px', ''))) *-1; 
-            var diff = $(document).height() - (elem.height());
-                
-            if (getDocHeight() > $(window).height()) {
-                elem.removeClass('float').addClass('fixed');
-                var bottom = bottomHeight + bottomOffset;   
-                $('body').css('paddingBottom', bottom + 'px').addClass('bottom-fixed');
+            var footer = $(this);
+            var visible = $('div.visible', this);
+            
+            $(window).bind('resize scroll', function(e) {
+                var clientHeight = $('body').height();
+                var height = visible.height();              
+                var top = footer.offset().top;
+                var scrollTop = getScrollTop() + clientHeight - height;
+
+                if (scrollTop > top) {
+                    visible.removeClass('locked');
+                } else {
+                    visible.addClass('locked');
+                }
+            }).scroll();     
+        });
+
+        /**
+         * workaround for Firefox / Opera
+         */
+        function getScrollTop()
+        {
+            var target = document.body;
+            var scrollTop = 0
+
+            while (target != null)  {
+                scrollTop += target.scrollTop ? target.scrollTop : 0;
+                target = target.parentNode;
             }
 
-            $(window).bind('resize scroll', function() {
-                var scrollTop = scrollTop();
-                var height = $(this).height();
-                
-                if ((scrollTop + height) >= (diff + bottomOffset)) {
-                    elem.removeClass('fixed').addClass('float');    
-                    $('body').css('paddingBottom', '0px').removeClass('bottom-fixed');
-                
-                } else if ((scrollTop + height) < (diff + bottomOffset)) {
-                    elem.removeClass('float').addClass('fixed');
-                    var bottom = bottomHeight + bottomOffset;   
-                    $('body').css('paddingBottom', bottom + 'px').addClass('bottom-fixed');
-                };
-            }).scroll();
-        });
-    }
-
-    function getDocHeight()
-    {
-        return Math.max(
-            $('body').height(),
-            $(window).height(),
-            document.documentElement.clientHeight /* for opera */
-        );
-    }
-
-    function scrollTop()
-    {
-        return filterResults (
-            window.pageYOffset ? window.pageYOffset : 0,
-            document.documentElement ? document.documentElement.scrollTop : 0,
-            document.body ? document.body.scrollTop : 0
-        );
-    }
-    
-    function filterResults(win, docel, body)
-    {
-        var result = win ? win : 0;
-
-        if (docel && (!result || (result > docel))) {
-            result = docel;
+            return Math.max(scrollTop, $('body').scrollTop());
         }
-
-        return (body && (!result || (result > body))) ? body : result;
     }
+
 
 })( jQuery );

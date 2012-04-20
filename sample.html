@@ -5,27 +5,77 @@
 <title>Floating Footer Sample</title>
 <style>
 
+/* clearfix, for modern browsers */
+.clearfix:before,
+.clearfix:after {
+    content:"";
+    display:table;
+}
+
+.clearfix:after {
+    clear:both;
+}
+
+/* clearfix, for IE 6/7 */
+.clearfix {
+    zoom:1;
+}
+
+/* basic styles */
 *, html, body {
     margin: 0;
     padding: 0;
 }
 
+body, html {
+    height: 100%;
+}
+
+/* page layout */
+#page  {
+    min-height: 100%;
+    margin: 0 auto;
+    width: 750px;
+}
+
+#page div.sidebar {
+    width: 200px;
+    background-color: #999900;
+    float: left;
+}
+
+#page div.content {
+    float: right;
+    width: 550px;
+}
+
+/* footer */
 #footer {
-    height: 150px;
-    background-color:#333;
-    color: #FFF;
+    /*padding-bottom: 10px; */
+    background: #444;
+    color: #fff;
+}
+
+#footer .inner {
+    margin: 0 auto;
+    width: 750px;
+}
+
+#footer div.floating {
+    height: 50px; /* size for visible div */
+}
+
+#footer div.visible {
+    position: inherit;
+    bottom: 0;
+    height: 50px; /* size for visible div */
     width: 100%;
+    background: #353535;
+    z-index: 99;
 }
 
-.fixed {
+#footer div.visible.locked {
     position: fixed;
-    top: 100%;
-    margin-top: -50px;
-}
-
-.float {
-    position: relative;
-    margin-top: -50px;
 }
 
 </style>
@@ -34,23 +84,41 @@
 <script type="text/javascript">
 
     jQuery(function() {
-        $('#footer').floatingFooter();
+        $('#footer').floatingFooter();      
     });
 
 </script>
 </head>
 
 <body>
-    <div style="height: 900px; width: 300px; background-color:#999900;">
-        Test
+    <div id="page" class="clearfix">
+        <div class="sidebar">
+            <p>
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            </p>
+        </div>
+        <div class="content">
+            <p>
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            </p>
+        </div>
     </div>
     <!-- begin footer -->
-    <div id="footer" class="float">
-        Footer
-        <br />
-        <br />
-        <br />
-        Footer Ausserhalb der Page      
+    <div id="footer">
+        <div class="floating">
+            <div class="visible">
+                <div class="inner">
+                    Already visible
+                </div>
+            </div>      
+        </div>
+        <div class="hidden">
+            <div class="inner">
+                <p>Hidden page bottom</p>
+                <p>Hidden page bottom</p>
+                <p>Hidden page bottom</p>
+            </div>
+        </div>
     </div>
     <!-- end footer -->
 </body>
